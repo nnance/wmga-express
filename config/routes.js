@@ -15,4 +15,16 @@ module.exports = function(app){
 	app.post('/rest/events', Event.addEvent);
 	app.put('/rest/events/:id', Event.updateEvent);
 	app.delete('/rest/events/:id', Event.deleteEvent);
+
+	//result route
+	var Result = require('../app/controllers/result');
+	app.get('/rest/results', Result.getAll);
+	app.get('/rest/results/:id', Result.getById);
+	app.post('/rest/results', Result.addResult);
+	app.put('/rest/results/:id', Result.updateResult);
+	app.delete('/rest/results/:id', Result.deleteResult);
+
+	//attachments route
+	var Attachment = require('../app/controllers/attachment');
+	app.post('/rest/attachments', Attachment.saveAttachment);
 };
