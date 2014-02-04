@@ -24,6 +24,14 @@ module.exports = function(app){
 	app.put('/rest/results/:id', Result.updateResult);
 	app.delete('/rest/results/:id', Result.deleteResult);
 
+	//result route
+	var User = require('../app/controllers/user');
+	app.get('/rest/users', User.getAll);
+	app.get('/rest/users/:id', User.getById);
+	app.post('/rest/users', User.addUser);
+	app.put('/rest/users/:id', User.updateUser);
+	app.delete('/rest/users/:id', User.deleteUser);
+
 	//attachments route
 	var Attachment = require('../app/controllers/attachment');
 	app.post('/rest/attachments', Attachment.saveAttachment);
