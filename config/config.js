@@ -26,8 +26,8 @@ var config = {
     app: {
       name: 'wmga-express'
     },
-    port: 3000,
-    db: 'mongodb://localhost/wmga-express-production'
+    port: 80,
+    db: 'mongodb://nodejitsu:643943871a4f58720188afc78ba19457@troup.mongohq.com:10037/nodejitsudb7060573752'
   }
 };
 
