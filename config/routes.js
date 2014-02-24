@@ -28,7 +28,7 @@ module.exports = function(app){
 	var User = require('../app/controllers/user');
 	app.get('/rest/users', User.getAll);
 	app.get('/rest/users/:id', User.getById);
-	app.get('/rest/users/:id/auth/:password', User.validateSignIn);
+	app.post('/rest/users', User.addUser);
 	app.put('/rest/users/:id', User.updateUser);
 	app.delete('/rest/users/:id', User.deleteUser);
 	//signin route
