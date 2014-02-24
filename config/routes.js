@@ -28,9 +28,11 @@ module.exports = function(app){
 	var User = require('../app/controllers/user');
 	app.get('/rest/users', User.getAll);
 	app.get('/rest/users/:id', User.getById);
-	app.post('/rest/users', User.addUser);
+	app.get('/rest/users/:id/auth/:password', User.validateSignIn);
 	app.put('/rest/users/:id', User.updateUser);
 	app.delete('/rest/users/:id', User.deleteUser);
+	//signin route
+	app.post('/rest/signin', User.validateSignIn);
 
 	//attachments route
 	var Attachment = require('../app/controllers/attachment');

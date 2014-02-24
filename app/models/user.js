@@ -17,6 +17,8 @@ var UserSchema = new Schema({
 	paid: Boolean,
 	createdate: { type: Date, default: Date.now },
   	photo: String,
+  	password: String,
+  	passwordHash: String
 });
 
 mongoose.model('User', UserSchema);
