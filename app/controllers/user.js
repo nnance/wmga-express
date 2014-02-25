@@ -1,10 +1,13 @@
 var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	_ = require('underscore'),
-	passwordHash = require('password-hash');;
+	passwordHash = require('password-hash'),
+	excludeList = '-password';
 
-exports.getAll = function(req, res){
-	User.find({},'-password', function(err, users){
+exports.getList = function(req, res){
+	console.log('controller/user getList: ' + (req.query && req.query.email ? req.query.email : ''));
+
+	User.find(req.query, excludeList, function(err, users){
 		if(err) throw new Error(err);
 		res.send(users);
 	});
@@ -13,7 +16,7 @@ exports.getAll = function(req, res){
 exports.getById = function(req, res){
 	console.log('controller/user getById: ' + req.params);
 
-	User.findById(req.params.id,'-password',function(err, user){
+	User.findById(req.params.id, excludeList, function(err, user){
 		if(err) throw new Error(err);
 		res.send(user);
 	});
@@ -26,14 +29,14 @@ exports.validateSignIn = function(req, res){
 		User.findOne({ email: req.body.email, passwordHash: req.body.password}, function (err, user) {
 			if (err) throw new Error(err);
 			if (!user) res.status(404).send('Not found');
-			res.send(user);		
-		});				
+			res.send(user);
+		});
 	} else {
 		User.findOne({ email: req.body.email, password: req.body.password}, function (err, user) {
 			if (err) throw new Error(err);
 			if (!user) res.status(404).send('Not found');
-			res.send(user);		
-		});		
+			res.send(user);
+		});
 	}
 };
 

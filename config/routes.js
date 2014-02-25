@@ -26,7 +26,7 @@ module.exports = function(app){
 
 	//result route
 	var User = require('../app/controllers/user');
-	app.get('/rest/users', User.getAll);
+	app.get('/rest/users', User.getList);
 	app.get('/rest/users/:id', User.getById);
 	app.post('/rest/users', User.addUser);
 	app.put('/rest/users/:id', User.updateUser);
