@@ -2,8 +2,7 @@ var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	_ = require('underscore'),
 	passwordHash = require('password-hash'),
-	excludePassword = '-password -passwordHash',
-	excludeList = excludePassword + ' -admin -treasure';
+	excludeList = '-password -passwordHash';
 
 exports.getList = function(req, res){
 	console.log('controller/user getList: ' + (req.query && req.query.email ? req.query.email : ''));
@@ -32,8 +31,8 @@ exports.validateSignIn = function(req, res){
 	} else {
 		options.password = req.body.password;
 	}
-	
-	User.findOne(options, excludePassword, function (err, user) {
+
+	User.findOne(options, function (err, user) {
 		if (err) throw new Error(err);
 		if (!user) res.status(404).send('Not found');
 		res.send(user);
@@ -65,7 +64,7 @@ exports.updateUser = function(req, res){
 		}
 		user.update(updateObj,function(err,count){
 			if(err) throw new Error(err);
-			res.send(req.body);
+			res.send(user);
 		});
 	});
 };

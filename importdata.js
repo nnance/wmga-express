@@ -60,8 +60,6 @@ fs.readFile(file, 'utf8', function (err, data) {
             item.text = item.description;
         } else if (ops.json.indexOf('members') > -1) {
             item.paid = false;
-            item.admin = false;
-            item.treasure = false;
             item.passwordHash = passwordHash.generate(item.password);
         }
     });

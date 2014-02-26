@@ -19,8 +19,8 @@ var UserSchema = new Schema({
   	photo: String,
   	password: String,
   	passwordHash: String,
-  	admin: Boolean,
-  	treasure: Boolean
+  	admin: { type: Boolean, default: false },
+  	treasure: { type: Boolean, default: false }
 });
 
 mongoose.model('User', UserSchema);
