@@ -18,7 +18,9 @@ var UserSchema = new Schema({
 	createdate: { type: Date, default: Date.now },
   	photo: String,
   	password: String,
-  	passwordHash: String
+  	passwordHash: String,
+  	admin: Boolean,
+  	treasure: Boolean
 });
 
 mongoose.model('User', UserSchema);

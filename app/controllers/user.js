@@ -2,7 +2,8 @@ var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	_ = require('underscore'),
 	passwordHash = require('password-hash'),
-	excludeList = '-password';
+	excludePassword = '-password -passwordHash',
+	excludeList = excludePassword + ' -admin -treasure';
 
 exports.getList = function(req, res){
 	console.log('controller/user getList: ' + (req.query && req.query.email ? req.query.email : ''));
@@ -25,19 +26,18 @@ exports.getById = function(req, res){
 exports.validateSignIn = function(req, res){
 	console.log('controller/user validateSignIn: ' + req.body.email);
 
+	var options = { email: req.body.email };
 	if (passwordHash.isHashed(req.body.password)) {
-		User.findOne({ email: req.body.email, passwordHash: req.body.password}, function (err, user) {
-			if (err) throw new Error(err);
-			if (!user) res.status(404).send('Not found');
-			res.send(user);
-		});
+		options.passwordHash = req.body.password;
 	} else {
-		User.findOne({ email: req.body.email, password: req.body.password}, function (err, user) {
-			if (err) throw new Error(err);
-			if (!user) res.status(404).send('Not found');
-			res.send(user);
-		});
+		options.password = req.body.password;
 	}
+	
+	User.findOne(options, excludePassword, function (err, user) {
+		if (err) throw new Error(err);
+		if (!user) res.status(404).send('Not found');
+		res.send(user);
+	});
 };
 
 exports.addUser = function(req, res){
