@@ -24,10 +24,10 @@ var config = {
   production: {
     root: rootPath,
     app: {
-      name: 'wmga-express'
+      name: 'wmga-production'
     },
     port: 80,
-    db: 'mongodb://nodejitsu:643943871a4f58720188afc78ba19457@troup.mongohq.com:10037/nodejitsudb7060573752'
+    db: 'mongodb://nodejitsu_nancenick:9sbirh3oi9li8bhhavccb4ov3q@ds061558.mongolab.com:61558/nodejitsu_nancenick_nodejitsudb2721215477'
   }
 };
 

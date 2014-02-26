@@ -1,6 +1,11 @@
 {
   "name": "wmga-express",
-  "version": "0.0.2",
+  "subdomain": "wmga",
+  "domains": [
+    "westwoodmensgolf.org",
+    "www.westwoodmensgolf.org"
+  ],
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "start": "app.js"
@@ -24,7 +29,6 @@
     "load-grunt-tasks": "~0.2.0",
     "stdio": "~0.1.5"
   },
-  "subdomain": "wmga",
   "engines": {
     "node": "0.10.x"
   }

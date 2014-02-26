@@ -11,6 +11,7 @@ var express = require('express'),
         'root': {args: 1, description: 'Root array element', mandatory: true}
     });
 
+console.log(config.db);
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', function () {
