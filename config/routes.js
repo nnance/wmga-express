@@ -33,8 +33,15 @@ module.exports = function(app){
 	app.delete('/rest/users/:id', User.deleteUser);
 	//signin route
 	app.post('/rest/signin', User.validateSignIn);
+	app.post('/rest/users/requestpassword', User.requestPassword);
 
 	//attachments route
 	var Attachment = require('../app/controllers/attachment');
 	app.post('/rest/attachments', Attachment.saveAttachment);
+
+	//paypal ipn
+	var PayPalIPN = require('../app/controllers/paypalipn');
+	app.get('/paypal/cancel', PayPalIPN.cancelTakePayment);
+	app.get('/paypal/success', PayPalIPN.successfulTakePayment);
+	app.post('/paypal/ipn', PayPalIPN.processIPN);
 };

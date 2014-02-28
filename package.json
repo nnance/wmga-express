@@ -5,7 +5,7 @@
     "westwoodmensgolf.org",
     "www.westwoodmensgolf.org"
   ],
-  "version": "0.1.5",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "start": "app.js"
@@ -17,7 +17,9 @@
     "restify": "~2.6.1",
     "cors": "~2.1.1",
     "underscore": "~1.5.2",
-    "password-hash": "~1.2.1"
+    "password-hash": "~1.2.1",
+    "paypal-ipn": "~1.0.1",
+    "mandrill-api": "~1.0.39"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
