@@ -35,6 +35,14 @@ module.exports = function(app){
 	app.post('/rest/signin', User.validateSignIn);
 	app.post('/rest/users/requestpassword', User.requestPassword);
 
+	//result route
+	var Team = require('../app/controllers/team');
+	app.get('/rest/teams', Team.getList);
+	app.get('/rest/teams/:id', Team.getById);
+	app.post('/rest/teams', Team.addTeam);
+	app.put('/rest/teams/:id', Team.updateTeam);
+	app.delete('/rest/teams/:id', Team.deleteTeam);
+
 	//attachments route
 	var Attachment = require('../app/controllers/attachment');
 	app.post('/rest/attachments', Attachment.saveAttachment);
