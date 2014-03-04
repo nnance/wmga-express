@@ -115,7 +115,7 @@ exports.updateUser = function(req, res){
 		}
 		user.update(updateObj,function(err,count){
 			if(err) throw new Error(err);
-			res.send(user);
+			res.send(req.body);
 		});
 	});
 };
