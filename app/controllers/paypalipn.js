@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
 	PayPalLog = mongoose.model('PayPalLog'),
 	User = mongoose.model('User'),
+	Team = mongoose.model('Team'),
 	ipn = require('paypal-ipn');
 
 exports.cancelTakePayment = function(req, res) {
@@ -41,9 +42,11 @@ exports.processIPN = function(req, res){
 		    	if (payment.paymentStatus == 'Completed') {
 					//Payment has been confirmed as completed
 
-					var email = payment.invoice.substring(5);
-					console.log('payment invoice: ' + payment.invoice + ' email: ' + email + ' item: ' + payment.itemNumber);
+					console.log('payment invoice: ' + payment.invoice + ' item: ' + payment.itemNumber);
 			        if (payment.itemNumber === 'Membership') {
+						var email = payment.invoice.substring(5);
+						console.log('member payment email: ' + email);
+
 						User.findOne({email: email},function(err, user){
 							if(err) {
 								console.error(err);
@@ -57,6 +60,20 @@ exports.processIPN = function(req, res){
 							}
 						});
 
+			        } else if (payment.itemNumber === 'Team') {
+						console.log('team payment id: ' + payment.invoice);
+						Team.findById(payment.invoice, function(err, team){
+							if(err) {
+								console.error(err);
+							} else if (!team) {
+								console.log('team not found!');
+							} else {
+								team.update({paid: true},function(err,count){
+									if(err) console.error(err);
+									console.log('team updated');
+								});
+							}
+						});
 			        }
 			  	}
 			});
