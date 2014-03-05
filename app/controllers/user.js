@@ -102,6 +102,47 @@ exports.addUser = function(req, res){
 	});
 };
 
+exports.emailAllUsers = function(req, res){
+	console.log('controller/user emailAllUsers: ' + req.body.subject);
+
+	var query = req.query;
+	User.find(query, excludeList, function(err, users){
+		if(err) throw new Error(err);
+		var addresses = [];
+		_.each(users, function(user){
+			addresses.push({
+				'email': user.email,
+				'name': user.firstname + ' ' + user.lastname,
+				'type': 'to'
+			});
+		});
+
+		var message = {
+			"text": req.body.body,
+			"subject": req.body.subject,
+			"from_email": "donotreply@westwoodmensgolf.org",
+			"from_name": "WMGA",
+			"to": addresses,
+			"headers": {
+				"Reply-To": "donotreply@westwoodmensgolf.org"
+			},
+			"important": false
+		};
+
+		var async = false;
+		var ip_pool = "Main Pool";
+		mandrill_client.messages.send({"message": message, "async": async, "ip_pool": ip_pool}, function(result) {
+			console.log(result);
+			res.send(result);
+		}, function(e) {
+			// Mandrill returns the error as an object with name and message keys
+			console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+			// A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+			res.status(500).send(e.name + ' - ' + e.message);
+		});
+	});
+};
+
 exports.updateUser = function(req, res){
 	console.log('controller/user putMessage: ' + req.body);
 
