@@ -4,6 +4,8 @@ var mongoose = require('mongoose'),
 	passwordHash = require('password-hash'),
 	mandrill = require('mandrill-api'),
 	mandrill_client = new mandrill.Mandrill('Q1mfCekulLqLCVsXC_xhJw'),
+	twilio = require('twilio'),
+	twilio_client = twilio('AC8d2a5bfa963c7aa6285c31eac5bbf94f','14061985923777850bb0513f00c59420'),
 	excludeList = '-password -passwordHash';
 
 exports.getList = function(req, res){
@@ -118,20 +120,19 @@ exports.emailAllUsers = function(req, res){
 		});
 
 		var message = {
-			"text": req.body.body,
-			"subject": req.body.subject,
-			"from_email": "donotreply@westwoodmensgolf.org",
-			"from_name": "WMGA",
-			"to": addresses,
-			"headers": {
-				"Reply-To": "donotreply@westwoodmensgolf.org"
+			'text': req.body.body,
+			'subject': req.body.subject,
+			'from_email': 'donotreply@westwoodmensgolf.org',
+			'from_name': 'WMGA',
+			'to': addresses,
+			'headers': {
+				'Reply-To': 'donotreply@westwoodmensgolf.org'
 			},
-			"important": false
+			'important': false,
+			'preserve_recipients': false
 		};
 
-		var async = false;
-		var ip_pool = "Main Pool";
-		mandrill_client.messages.send({"message": message, "async": async, "ip_pool": ip_pool}, function(result) {
+		mandrill_client.messages.send({'message': message, 'async': true, 'ip_pool': 'Main Pool'}, function(result) {
 			console.log(result);
 			res.send(result);
 		}, function(e) {
@@ -139,6 +140,35 @@ exports.emailAllUsers = function(req, res){
 			console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
 			// A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
 			res.status(500).send(e.name + ' - ' + e.message);
+		});
+	});
+};
+
+exports.notifyAllUsers = function(req, res){
+	console.log('controller/user notifyAllUsers: ' + req.body.message);
+
+	var query = req.query;
+	query = {email: 'nance.nick@gmail.com'};
+	User.find(query, excludeList, function(err, users){
+		if(err) throw new Error(err);
+		var numbers = [];
+		_.each(users, function(user){
+			if (user.phone) {
+				numbers.push('+1' + user.phone);
+			}
+		});
+
+		twilio_client.sms.messages.create({
+			body: "Jenny please?! I love you <3",
+			to: "+14058319107",
+			from: "+19183799090"
+		}, function(err, message) {
+			console.log(message);
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				res.send();
+			}
 		});
 	});
 };
