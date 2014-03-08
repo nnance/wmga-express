@@ -27,9 +27,6 @@ exports.addTeam = function(req, res){
 	console.log('controller/team postMessage: ' + req.body);
 
 	var team = new Team(req.body);
-	if (team.members && team.members.length > 0) {
-		team.captainid = team.members[0];
-	}
 	team.save(function() {
 		res.send(team);
 	});
