@@ -11,6 +11,10 @@ var mongoose = require('mongoose'),
 exports.getList = function(req, res){
 	console.log('controller/user getList: ' + (req.query && req.query.email ? req.query.email : ''));
 
+	if (req.query && req.query.email) {
+		req.query.email = new RegExp(req.query.email, 'i');
+	}
+
 	User.find(req.query, excludeList, function(err, users){
 		if(err) throw new Error(err);
 		res.send(users);
@@ -29,7 +33,12 @@ exports.getById = function(req, res){
 exports.requestPassword = function(req, res){
 	console.log('controller/user requestPassword: ' + req.body.email);
 
-	User.findOne({ email: req.body.email }, function (err, user) {
+	var options = {};
+	if (req.body.email) {
+		options.email = new RegExp(req.query.email, 'i')
+	}
+
+	User.findOne(options, function (err, user) {
 		if (err) throw new Error(err);
 		if (!user) res.status(404).send('Not found');
 
@@ -78,7 +87,12 @@ exports.requestPassword = function(req, res){
 exports.validateSignIn = function(req, res){
 	console.log('controller/user validateSignIn: ' + req.body.email);
 
-	var options = { email: req.body.email };
+	var options = {};
+
+	if (req.body.email) {
+		options.email = new RegExp(req.body.email, 'i');
+	}
+
 	if (passwordHash.isHashed(req.body.password)) {
 		options.passwordHash = req.body.password;
 	} else {
