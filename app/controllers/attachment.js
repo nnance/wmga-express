@@ -4,7 +4,7 @@ var fs 		= require('fs');
 exports.saveAttachment = function(req, res){
 	console.log('controller/attachment post: ' + req.files[0].path );
 
-	var newLocation = config.root + '/public/attachments/' + req.files[0].name;
+	var newLocation = config.root + '/public/files/' + req.files[0].name;
 	console.log('controller/attachment newLocation: ' + newLocation);
 
 	fs.rename(req.files[0].path, newLocation, function (err) {

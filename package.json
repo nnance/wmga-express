@@ -5,7 +5,7 @@
     "westwoodmensgolf.org",
     "www.westwoodmensgolf.org"
   ],
-  "version": "1.1.8",
+  "version": "1.1.11",
   "private": true,
   "scripts": {
     "start": "app.js"
