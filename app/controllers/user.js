@@ -35,7 +35,7 @@ exports.requestPassword = function(req, res){
 
 	var options = {};
 	if (req.body.email) {
-		options.email = new RegExp(req.query.email, 'i')
+		options.email = new RegExp(req.body.email, 'i')
 	}
 
 	User.findOne(options, function (err, user) {
